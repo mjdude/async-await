@@ -14,12 +14,12 @@ const grades = [
     {
         id: 1,
         schoolId: 101,
-        grade: 86
+        grade: 80
     },
     {
         id: 2,
         schoolId: 909,
-        grade: 100
+        grade: 99
     },
     {
         id: 3,
