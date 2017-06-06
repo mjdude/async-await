@@ -9,27 +9,40 @@
 
 const axios = require('axios');
 
-const getExchangeRate = (from, to) => {
-    return axios.get(`http://api.fixer.io/latest?base=${from}`)
-        .then((res) => {
-            return res.data.rates[to]
-        })    
+// const getExchangeRatePromise = (from, to) => {
+//     return axios.get(`http://api.fixer.io/latest?base=${from}`)
+//         .then((res) => {
+//             return res.data.rates[to]
+//         })    
+// }
+
+// const getCountriesPromise = (currencyCode) => {
+//     return axios.get(`https://restcountries.eu/rest/v2/currency/${currencyCode}`)
+//         .then((res) => {
+//             return countries = res.data.map((country) => country.name)
+//         })
+// }
+
+
+// const convertCurrency = (from, to , amount) => {
+//     return getCountriesPromise(to).then((countries) => {
+//         return getExchangeRatePromise(from,to)
+//     }).then((rate) => {
+//         return `${amount} ${from} is worth ${rate * amount} ${to}, ${to} can be spent in ${countries.join(',')}`;
+//     })
+// }
+
+const getExchangeRate = async (from, to) => {
+    const res = await axios.get(`http://api.fixer.io/latest?base=${from}`);
+    return res.data.rates[to];
 }
 
-const getCountries = (currencyCode) => {
-    return axios.get(`https://restcountries.eu/rest/v2/currency/${currencyCode}`)
-        .then((res) => {
-            return countries = res.data.map((country) => country.name)
-        })
+const getCountries = async (currencyCode) => {
+    const res = await axios.get(`https://restcountries.eu/rest/v2/currency/${currencyCode}`);
+    return res.data.map((country) => country.name)
 }
 
-const convertCurrency = (from, to , amount) => {
-    return getCountries(to).then((countries) => {
-        return getExchangeRate(from,to)
-    }).then((rate) => {
-        return `${amount} ${from} is worth ${rate * amount} ${to}, ${to} can be spent in ${countries.join(',')}`;
-    })
-}
+
 
 const convertCurrencyAlt = async (from, to, amount) => {
     const countries = await getCountries(to);
@@ -50,4 +63,6 @@ const convertCurrencyAlt = async (from, to, amount) => {
 
 convertCurrencyAlt('USD', 'CAD', 100).then((res) => {
     console.log(res)
+}).catch((err) => {
+    console.log(err)
 })
