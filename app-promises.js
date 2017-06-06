@@ -66,10 +66,34 @@ const getStatus = (userId) => {
 }
 
 
+// const getStatusAlt = async (userId) => {
+//     throw new Error('this is an error')
+//     return 'Mike';
+// }
+
+const getStatusAlt = async (userId) => {
+    const user = await getUser(userId);
+    const grades = await getGrades(user.schoolId);
+    let average = 0;
+    // average
+    if(grades.length > 0) {
+        average = grades.map((grade) => grade.grade).reduce((a,b) => a + b) / grades.length
+    }
+    return `${user.name} has an average of ${average}%`;
+}
+
+// console.log(getStatusAlt())
+
+getStatusAlt(2).then((status) => {
+    console.log(status);
+}).catch((err) => {
+    console.log(err);
+})
+
 // getUser(1)
 //     .then((res) => console.log(res))
 //     .catch((err) => console.log(err))
 
 // getGrades(909).then((res) => console.log(res))
 
-getStatus(4).then((res) => console.log(res)).catch((err) => console.log(err))
+// getStatus(4).then((res) => console.log(res)).catch((err) => console.log(err))
